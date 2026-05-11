@@ -72,13 +72,13 @@ td{padding:7px 14px;text-align:center;border-bottom:1px solid #1a2332;color:#e2e
   var X0='2025-01-01', X1='2035-12-31';
   var CLR_V='rgba(255,255,255,0.55)', CLR_H='rgba(255,255,255,0.28)';
 
-  // ── 自訂 tooltip（完全不用 Plotly hover）─────────────────
+  // ── 自訂 tooltip（掛在 body，position:fixed，手機不蓋標題）──
   var tip = document.createElement('div');
-  tip.style.cssText='display:none;position:absolute;pointer-events:none;z-index:60;'
+  tip.style.cssText='display:none;position:fixed;pointer-events:none;z-index:9999;'
     +'background:rgba(15,23,42,0.93);border:1px solid #334155;border-radius:6px;'
     +'padding:7px 10px;font-size:11px;color:#e2e8f0;line-height:1.8;white-space:nowrap;'
     +'font-family:"Microsoft JhengHei",sans-serif;';
-  gd.appendChild(tip);
+  document.body.appendChild(tip);
 
   function n2s(v,d){ return v===null?'—':v.toFixed(d); }
 
@@ -97,11 +97,21 @@ td{padding:7px 14px;text-align:center;border-bottom:1px solid #1a2332;color:#e2e
       +'<span style="color:#64748b">BB中軌 </span>'+n2s(bm,3)+'<br>'
       +'<span style="color:rgba(96,165,250,0.8)">BB下軌 </span>'+n2s(bl,3);
     try {
+      var rect=gd.getBoundingClientRect();
       var ml=gd._fullLayout.margin.l;
-      var topPx=gd._fullLayout.yaxis._offset;   // 主圖繪圖區上緣（像素）
-      tip.style.left=(ml+6)+'px';
-      tip.style.top=topPx+'px';
-    }catch(e){tip.style.left='70px';tip.style.top='116px';}
+      if(window.innerWidth < 768){
+        // 手機：固定在螢幕左下角，不蓋標題
+        tip.style.left='8px';
+        tip.style.top='auto';
+        tip.style.bottom='80px';
+      }else{
+        // 桌機：主圖繪圖區左上角（viewport 座標）
+        var topPx=gd._fullLayout.yaxis._offset;
+        tip.style.left=(rect.left+ml+6)+'px';
+        tip.style.top=(rect.top+topPx)+'px';
+        tip.style.bottom='auto';
+      }
+    }catch(e){tip.style.left='8px';tip.style.top='auto';tip.style.bottom='80px';}
     tip.style.display='block';
   }
 
