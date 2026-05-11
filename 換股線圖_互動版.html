@@ -206,6 +206,8 @@ td{padding:7px 14px;text-align:center;border-bottom:1px solid #1a2332;color:#e2e
 
   // 手機：離開圖表區關閉 tooltip
   gd.addEventListener('mouseleave',function(){if(!hasCursor)tip.style.display='none';});
+  // 捲動時隱藏 tooltip（避免蓋住標題或表格）
+  window.addEventListener('scroll',function(){tip.style.display='none';},{passive:true});
 
   // 圖表填滿螢幕（寬=viewport，高=viewport-導覽列，桌機至少750px）
   function resizeChart(){
