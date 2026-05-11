@@ -97,10 +97,11 @@ td{padding:7px 14px;text-align:center;border-bottom:1px solid #1a2332;color:#e2e
       +'<span style="color:#64748b">BB中軌 </span>'+n2s(bm,3)+'<br>'
       +'<span style="color:rgba(96,165,250,0.8)">BB下軌 </span>'+n2s(bl,3);
     try {
-      var ml=gd._fullLayout.margin.l, mt=gd._fullLayout.margin.t;
+      var ml=gd._fullLayout.margin.l;
+      var topPx=gd._fullLayout.yaxis._offset;   // 主圖繪圖區上緣（像素）
       tip.style.left=(ml+6)+'px';
-      tip.style.top=mt+'px';
-    }catch(e){tip.style.left='70px';tip.style.top='80px';}
+      tip.style.top=topPx+'px';
+    }catch(e){tip.style.left='70px';tip.style.top='116px';}
     tip.style.display='block';
   }
 
