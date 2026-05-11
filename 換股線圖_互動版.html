@@ -74,12 +74,6 @@ td{padding:7px 14px;text-align:center;border-bottom:1px solid #1a2332;color:#e2e
   var X0='2025-01-01', X1='2035-12-31';
   var CLR_V='rgba(255,255,255,0.55)', CLR_H='rgba(255,255,255,0.28)';
 
-  // 量尺：position:fixed 元素寬度 = 真實 viewport 寬，完全不受表格 overflow 影響
-  var ruler = document.createElement('div');
-  ruler.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:0;pointer-events:none;visibility:hidden;';
-  document.body.appendChild(ruler);
-  function vpWidth(){ return ruler.getBoundingClientRect().width; }
-
   // ── 自訂 tooltip（可拖曳，掛在 body）────────────────────────
   var tip = document.createElement('div');
   tip.style.cssText='display:none;position:fixed;z-index:9999;cursor:grab;user-select:none;'
