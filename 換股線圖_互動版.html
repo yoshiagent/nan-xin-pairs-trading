@@ -246,8 +246,10 @@ td{padding:7px 14px;text-align:center;border-bottom:1px solid #1a2332;color:#e2e
   function resizeChart(){
     var navH = document.getElementById('nav-bar').offsetHeight;
     document.body.style.paddingTop = navH + 'px';
+    var w = vpWidth();   // position:fixed 量尺，完全不受表格 overflow 影響
     var h = Math.max(window.innerHeight - navH - 2, 750);
-    // 先設 CSS height，再讓 Plotly.Plots.resize 讀 container 尺寸（不手動算寬）
+    // 明確把 inline style 寫成正確值，再交給 Plotly.Plots.resize 讀取
+    gd.style.width  = w + 'px';
     gd.style.height = h + 'px';
     return Plotly.Plots.resize(gd);
   }
