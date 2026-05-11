@@ -235,13 +235,14 @@ td{padding:7px 14px;text-align:center;border-bottom:1px solid #1a2332;color:#e2e
   },{passive:false});
   document.addEventListener('touchend',tdEnd);
 
-  // 圖表填滿螢幕（寬=viewport，高=viewport-導覽列，桌機至少750px）
+  // 圖表填滿螢幕（寬=container實際寬，高=viewport-導覽列，桌機至少750px）
   function resizeChart(){
     var navH = document.getElementById('nav-bar').offsetHeight;
     var h = Math.max(window.innerHeight - navH - 2, 750);
-    var w = window.innerWidth;
-    gd.style.height = h + 'px';   // 同步 div 高度，避免 SVG 縮小後 div 仍保留原始空白
-    gd.style.width  = w + 'px';
+    // 先讓 CSS width:100% 生效，再讀取實際像素寬（比 window.innerWidth 更準確）
+    gd.style.width  = '100%';
+    gd.style.height = h + 'px';
+    var w = gd.getBoundingClientRect().width;
     Plotly.relayout(gd, {height: h, width: w});
   }
 
