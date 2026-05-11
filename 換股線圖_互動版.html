@@ -245,23 +245,27 @@ td{padding:7px 14px;text-align:center;border-bottom:1px solid #1a2332;color:#e2e
   // 圖表 + 表格同步填滿螢幕（用量尺取真實 viewport 寬）
   function resizeChart(){
     var navH = document.getElementById('nav-bar').offsetHeight;
-    document.body.style.paddingTop = navH + 'px';   // 動態對齊導覽列高度
+    document.body.style.paddingTop = navH + 'px';
     var h = Math.max(window.innerHeight - navH - 2, 750);
     var w = vpWidth();
     gd.style.width  = w + 'px';
     gd.style.height = h + 'px';
-    Plotly.relayout(gd, {width: w, height: h});
     var sw = document.querySelector('.sw-wrap');
     if(sw) sw.style.maxWidth = w + 'px';
+    return Plotly.relayout(gd, {width: w, height: h});  // 回傳 Promise
   }
-  window.addEventListener('resize', resizeChart);
+  window.addEventListener('resize', function(){
+    resizeChart().then(function(){
+      if(hasCursor) showAt(curIdx);   // resize 後重繪游標
+    });
+  });
 
-  // 預設游標在最後一天
+  // 預設游標在最後一天（resizeChart 完成後再 showAt，避免 shapes 被蓋掉）
   window.addEventListener('load', function(){
     setTimeout(function(){
-      resizeChart();
-      syncTableWidth();
-      showAt(DATES.length-1);
+      resizeChart().then(function(){
+        showAt(DATES.length-1);
+      });
     }, 400);
   });
 })();
