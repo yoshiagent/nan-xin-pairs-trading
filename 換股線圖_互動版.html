@@ -308,6 +308,29 @@ td{padding:7px 14px;text-align:center;border-bottom:1px solid #1a2332;color:#e2e
         <span style="color:#64748b;">⚠ 本策略為研究用途，不構成投資建議。</span>
       </div>
 
+      <div style="flex:1;min-width:240px;background:#111827;border-radius:8px;padding:14px 16px;">
+        <div style="color:#e2e8f0;font-weight:bold;margin-bottom:8px;">🔬 252日協整 p 值（健康指標③）</div>
+        <b style="color:#7dd3fc;">協整（Cointegration）</b>是配對交易的統計基礎——若兩檔股價具協整關係，
+        代表其價差長期會回歸均值，換股策略才有理論依據。<br><br>
+        <b style="color:#e2e8f0;">計算方式：</b><br>
+        取最近 <b style="color:#fb923c;">252 個交易日</b>（約一年）的收盤價，
+        執行 <b style="color:#e2e8f0;">Engle-Granger 兩步驟協整檢定（EG test）</b>：<br>
+        <div style="background:#0d1117;border:1px solid #334155;border-radius:6px;padding:10px 14px;margin:8px 0;font-family:monospace;font-size:11px;line-height:2;color:#94a3b8;">
+          ① 對「南電收盤」對「欣興收盤」做 OLS 回歸<br>
+          ② 取迴歸殘差（residual）<br>
+          ③ 對殘差做 ADF 單根檢定<br>
+          <span style="color:#fb923c;">④ ADF 的 p 值 = 252日協整 p 值</span>
+        </div>
+        <b style="color:#e2e8f0;">判斷門檻：</b><br>
+        <span style="color:#22c55e;">p ≤ 0.05</span>：協整穩固，可正常操作 ✓<br>
+        <span style="color:#facc15;">0.05 &lt; p ≤ 0.15</span>：協整偏弱，留意觀察 ⚠<br>
+        <span style="color:#ef4444;">p &gt; 0.15</span>：協整不顯著，建議暫緩換股 ✗<br><br>
+        <span style="color:#64748b;font-size:12px;">
+          ⁕ 使用滾動 252 日而非全期，是為了反映「當前」配對關係是否仍穩健，
+          避免早期數據掩蓋近期結構性變化。
+        </span>
+      </div>
+
       <div style="flex:1;min-width:240px;background:#111827;border-radius:8px;padding:14px 16px;border:1px solid #334155;">
         <div style="color:#facc15;font-weight:bold;margin-bottom:8px;">🔍 人工濾網（執行前確認）</div>
         換股訊號觸發後，需同時滿足以下條件才執行：<br><br>
